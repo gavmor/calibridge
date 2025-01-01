@@ -1,11 +1,11 @@
 {
-  "name": "change-me",
+  "name": "calibridge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Synchronize your Goodreads to-read list with Calibre OPDS and Datasette API.",
   "main": "index.js",
   "scripts": {
-    "test": "bun ./script/test.ts",
-    "build": "bun build ./index.ts --compile --outfile=./build/$npm_package_name"
+    "test": "bun --hot ./script/test.ts",
+    "build": "bun build ./index.ts --compile --outfile=./dist/$npm_package_name"
   },
   "keywords": [],
   "author": "",

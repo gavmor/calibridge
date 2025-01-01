@@ -1,6 +1,6 @@
 import { program } from "./src/program";
 
-program.parse();
+program.parse(process.argv);
 
 
 
