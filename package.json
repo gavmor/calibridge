@@ -1,0 +1,24 @@
+{
+  "name": "change-me",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "bun ./script/test.ts",
+    "build": "bun build ./index.ts --compile --outfile=./build/$npm_package_name"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/sinon": "^17.0.3",
+    "commander": "^12.1.0",
+    "sinon": "^19.0.2"
+  },
+  "devDependencies": {
+    "@benchristel/taste": "^0.6.0",
+    "@types/node": "^22.7.4",
+    "@types/semver": "^7.5.8",
+    "bun": "^1.1.29"
+  }
+}
