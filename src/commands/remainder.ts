@@ -4,7 +4,7 @@ import { parse } from 'csv-parse/sync';
 
 type RemainderOptions = {
     goodreads: string;
-    calibre?: string;
+    calibre?: URL;
     output: string;
     verbose: boolean;
 };
@@ -17,8 +17,9 @@ type Book = {
 };
 
 export async function remainder(opts: RemainderOptions) {
-    const calibre = opts.calibre ? readCalibre(opts.calibre) : [];
-    const difference = findDifference(readGoodreads(opts.goodreads), calibre);
+    const goodreads = readGoodreads(opts.goodreads);
+    if(!opts.calibre) return goodreads;
+    const difference = await identifyMissing(goodreads, opts.calibre);
     writeDifference(difference, opts.output);
 }
 
@@ -48,11 +49,16 @@ function readCalibre(file: string) {
     ];
 }
 
-function findDifference(goodreads: Book[], calibre: any[]) {
-    // This function compares the Goodreads and Calibre lists and returns the difference.
-    return goodreads.filter((book) => !calibre.some((b) => b.isbn === book.isbn));
-}
+type Fetcher = (url: string) => Promise<Response>;
 
+async function identifyMissing(goodreads: Book[], calibre: URL, fetcher: Fetcher = fetch) {
+    const results = await Promise.all(goodreads.map(async (book) => {
+        const response = await fetcher(`${calibre}/search?q=${book.isbn}`);
+        const atomData = await response.text();
+        return !atomData.includes(book.isbn) ? book : null;
+    }));
+    return results.filter((book): book is Book => book !== null);
+}
 
 test("readGoodreads", {
     "produces an array of books"() {
@@ -78,18 +84,21 @@ test("readCalibre", {
 
 test("findDifference", {
     "works on empty arrays"() {
-        expect(findDifference([], []), equals, []);
+        expect(identifyMissing([], new URL("example.com")), equals, []);
     },
     "finds difference between two arrays"() {
-        expect(findDifference(
+        const bookEntryFixture = `<entry><title>Book 2</title><author>Author 2</author><isbn>0987654321</isbn></entry>`;
+        const mockFetch = async (url: string) => ({
+            async text() { return bookEntryFixture; }
+        }) as Response;
+        
+        expect(identifyMissing(
             [
                 { title: "Book 1", author: "Author 1", isbn: "1234567890" },
                 { title: "Book 2", author: "Author 2", isbn: "0987654321" },
             ],
-            [
-                { title: "Book 2", author: "Author 2", isbn: "0987654321" },
-                { title: "Book 3", author: "Author 3", isbn: "1357924680" },
-            ]
+            new URL("example.com"),
+            mockFetch
         ), equals, [
             { title: "Book 1", author: "Author 1", isbn: "1234567890" },
         ]);
