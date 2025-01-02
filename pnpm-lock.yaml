@@ -14,6 +14,9 @@ importers:
       commander:
         specifier: ^12.1.0
         version: 12.1.0
+      csv-parse:
+        specifier: ^5.6.0
+        version: 5.6.0
       sinon:
         specifier: ^19.0.2
         version: 19.0.2
@@ -21,6 +24,9 @@ importers:
       '@benchristel/taste':
         specifier: ^0.6.0
         version: 0.6.0
+      '@types/csv-parse':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@types/node':
         specifier: ^22.7.4
         version: 22.7.4
@@ -88,6 +94,10 @@ packages:
   '@sinonjs/text-encoding@0.7.3':
     resolution: {integrity: sha512-DE427ROAphMQzU4ENbliGYrBSYPXF+TtLg9S8vzeA+OF4ZKzoDdzfL8sxuMUGS/lgRhM6j1URSk9ghf7Xo1tyA==}
 
+  '@types/csv-parse@1.2.5':
+    resolution: {integrity: sha512-3PoFyWeuFGqale09vFydLQ6IGdvD+mizcXcB8s6ImWv+830IF0HckvewgcGVfGnTFImqvfvhpYZYod2QqGGGdg==}
+    deprecated: This is a stub types definition. csv-parse provides its own type definitions, so you do not need this installed.
+
   '@types/node@22.7.4':
     resolution: {integrity: sha512-y+NPi1rFzDs1NdQHHToqeiX2TIS79SWEAw9GYhkkx8bD0ChpfqC+n2j5OXOCpzfojBEBt6DnEnnG9MY0zk1XLg==}
 
@@ -102,13 +112,15 @@ packages:
 
   bun@1.1.29:
     resolution: {integrity: sha512-SKhpyKNZtgxrVel9ec9xon3LDv8mgpiuFhARgcJo1YIbggY2PBrKHRNiwQ6Qlb+x3ivmRurfuwWgwGexjpgBRg==}
-    cpu: [arm64, x64]
     os: [darwin, linux, win32]
     hasBin: true
 
   commander@12.1.0:
     resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
     engines: {node: '>=18'}
+
+  csv-parse@5.6.0:
+    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
 
   diff@7.0.0:
     resolution: {integrity: sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==}
@@ -193,6 +205,10 @@ snapshots:
 
   '@sinonjs/text-encoding@0.7.3': {}
 
+  '@types/csv-parse@1.2.5':
+    dependencies:
+      csv-parse: 5.6.0
+
   '@types/node@22.7.4':
     dependencies:
       undici-types: 6.19.8
@@ -217,6 +233,8 @@ snapshots:
       '@oven/bun-windows-x64-baseline': 1.1.29
 
   commander@12.1.0: {}
+
+  csv-parse@5.6.0: {}
 
   diff@7.0.0: {}
 

@@ -16,7 +16,7 @@ program
     .requiredOption('--goodreads <file>', 'Specify the path to the Goodreads to-read list file (in CSV format).')
     .requiredOption('--calibre <file>', 'Specify the path to the Calibre OPDS file (in JSON format).')
     .option('--output <file>', 'Specify the output CSV file for the search plan (default: search_plan.csv).', 'search_plan.csv')
-    .action(remainder);
+    .action(remainder); 
 
 program
     .command('plan')
