@@ -1,7 +1,7 @@
 import { expect, is, test } from "@benchristel/taste";
 import { Book } from "./Book";
 
-export function writeBookCSV(candidates: Book[], file: string, { writeFileSync }: FileWriter = require('fs')) {
+export function writeBookCSV(candidates: Book[], file: string, { writeFileSync } = require('fs')) {
     const csv = "title,author,isbn\n"
         + candidates.map(book => `${book.title},${book.author},${book.isbn}`).join("\n");
     writeFileSync(file, csv);
@@ -24,8 +24,9 @@ test(writeBookCSV.name, {
     }
 })
 
-export interface FileSystem {
-    writeFileSync: (path: string, data: string) => void;
+type FileSystem = {
     readFileSync: (path: string) => string;
+} | {
+    writeFileSync: (path: string, data: string) => void;
 }
 

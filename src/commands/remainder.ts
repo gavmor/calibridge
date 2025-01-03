@@ -3,6 +3,7 @@ import { parse as parseCSV } from 'csv-parse/sync';
 import { writeBookCSV } from "../util/writeBookCSV";
 import { identifyMissing } from "../util/identifyMissing";
 import type { Command } from "commander";
+import { hydrateRows } from "./hydrateRows";
 
 export async function remainder({ goodreads, calibre, output }, _: Command) {
     const candidates = !calibre
@@ -12,17 +13,13 @@ export async function remainder({ goodreads, calibre, output }, _: Command) {
     writeBookCSV(candidates, output)
 }
 
-function readGoodreads(path: string, {readFileSync} = require('fs')) {
-    const records = parseCSV(readFileSync(path, 'utf-8'), {
+function readGoodreads(path: string, { readFileSync } = require('fs')) {
+    const rows = parseCSV(readFileSync(path, 'utf-8'), {
         columns: true,
         skip_empty_lines: true
     });
 
-    return records.map(record => ({
-        title: record['Title'],
-        author: record['Author'],
-        isbn: record['ISBN']
-    }));
+    return hydrateRows(rows);
 }
 
 
@@ -38,6 +35,7 @@ test(readGoodreads.name, {
         ]);
     },
 });
+
 
 
 

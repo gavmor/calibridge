@@ -1,9 +1,9 @@
 import { expect, is, test } from "@benchristel/taste";
-import type { FileWriter } from "../util/writeBookCSV";
 import { writeBookCSV } from "../util/writeBookCSV";
 import type { Command } from "commander";
 import { identifyAvailable, isBook } from "../util/identifyMissing";
 import { parse as parseCSV } from 'csv-parse/sync';
+import { hydrateRows } from "./hydrateRows";
 
 type PlanOptions = {
     searchPlan: string;
@@ -12,10 +12,16 @@ type PlanOptions = {
     verbose?: boolean;
 };
 
-export async function plan({ output: outputPath, searchPlan: inputPath }:
+export async function plan({ output: outputPath, searchPlan: inputPath, datasetteUrl }:
     PlanOptions, _: Command,
-    { writeFileSync, readFileSync }: FileWriter = require('fs')) {
-    const candidates = await identifyAvailable(parseCSV(readFileSync(inputPath, 'utf-8')))
+    { writeFileSync, readFileSync } = require('fs')) {
+    const candidates = await identifyAvailable(
+        hydrateRows(
+            parseCSV(
+                readFileSync(inputPath, 'utf-8'), { columns: true })
+        ),
+        new URL(datasetteUrl)
+    )
     writeBookCSV(candidates, outputPath, { writeFileSync })
 }
 
@@ -24,7 +30,7 @@ test(plan.name, {
         let contents: string = 'UNWRITTEN'
         let destination: string = 'INDETERMINATE'
 
-        await plan({ searchPlan: 'foo', datasetteUrl: 'foo', output: 'baz' }, {} as Command, {
+        await plan({ searchPlan: 'foo', datasetteUrl: 'http://example.com', output: 'baz' }, {} as Command, {
             writeFileSync(path, data) {
                 contents = data
                 destination = path
@@ -39,7 +45,7 @@ test(plan.name, {
         let contents: string = 'UNWRITTEN'
         let destination: string = 'INDETERMINATE'
 
-        await plan({ searchPlan: 'foo', datasetteUrl: 'foo', output: 'baz' }, {} as Command, {
+        await plan({ searchPlan: 'foo', datasetteUrl: 'http://example.com', output: 'baz' }, {} as Command, {
             writeFileSync(path, data) {
                 contents = data
                 destination = path

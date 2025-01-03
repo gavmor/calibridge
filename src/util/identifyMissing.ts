@@ -49,6 +49,7 @@ test(identifyAvailable.name, {
         expect(await identifyAvailable([], new URL("http://example.com")), equals, [])
     },
     async "when some provided, returns them"() {
-        expect(await identifyAvailable(["foo"], new URL("http://example.com")), equals, ["foo"])
+        const book = { title: "foo", author: "bar", isbn: "baz" };
+        expect(await identifyAvailable([book], new URL("http://example.com")), equals, [book])
     }
 })
