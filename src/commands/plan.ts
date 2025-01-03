@@ -51,7 +51,7 @@ test(plan.name, {
                 destination = path
             },
             readFileSync() {
-                return "title,author,isbn\nstrawberry,chocolate,vanilla"
+                return "Title,Author,ISBN\nstrawberry,chocolate,vanilla"
             }
         })
 
