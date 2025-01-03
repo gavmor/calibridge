@@ -1,5 +1,5 @@
 import { expect, is, test } from "@benchristel/taste";
-import { Book } from "../commands/remainder";
+import { Book } from "./Book";
 
 export function writeBookCSV(candidates: Book[], file: string, { writeFileSync }: FileWriter = require('fs')) {
     const csv = "title,author,isbn\n"
@@ -24,7 +24,8 @@ test(writeBookCSV.name, {
     }
 })
 
-export interface FileWriter {
+export interface FileSystem {
     writeFileSync: (path: string, data: string) => void;
+    readFileSync: (path: string) => string;
 }
 
