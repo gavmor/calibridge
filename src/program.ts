@@ -20,10 +20,10 @@ program
 
 program
     .command('plan')
-    .description('Create a synchronization plan based on the search plan CSV file.')
+    .description('Create a download plan based on the search plan CSV file.')
     .requiredOption('--search-plan <file>', 'Specify the path to the search plan CSV file.')
-    .option('--output <file>', 'Specify the output CSV file for the download plan (default: download_plan.csv).', 'download_plan.csv')
     .requiredOption('--datasette-url <url>', 'Specify the base URL for the Datasette API.')
+    .option('--output <file>', 'Specify the output CSV file for the download plan (default: download_plan.csv).', 'download_plan.csv')
     .option('--verbose', 'Enable verbose logging for detailed output.')
     .action(plan);
 
