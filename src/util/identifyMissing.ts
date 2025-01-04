@@ -50,6 +50,13 @@ test(identifyAvailable.name, {
     },
     async "when some provided, returns them"() {
         const book = { title: "foo", author: "bar", isbn: "baz" };
-        expect(await identifyAvailable([book], new URL("http://example.com")), equals, [book])
+        const fetcher: Fetcher = async (req) => ({ text: async () => "" }) as Response
+        expect(await identifyAvailable([book], new URL("http://example.com"), fetcher), equals, [book])
+    },
+    async "when not found, returns empty"() {
+        const book = { title: "foo", author: "bar", isbn: "baz" };
+        const fetcher: Fetcher = async (req) => ({ text: async () => "" }) as Response
+        expect(await identifyAvailable([book], new URL("http://example.com"), fetcher), equals, [])
+
     }
 })
