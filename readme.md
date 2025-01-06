@@ -1,5 +1,7 @@
 # calibridge
 
+> Hey, I got bored and didn't finish this! If it interests you, please ping me: http://gavmor.bsky.social
+
 ## Usage
 ```
 Usage: calibridge [command] [options]
